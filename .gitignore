@@ -1,15 +1,5 @@
 .yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/sdks
-!.yarn/versions
-
-# Swap the comments on the following lines if you don't wish to use zero-installs
-# Documentation here: https://yarnpkg.com/features/zero-installs
-!.yarn/cache
-#.pnp.*
-
+.pnp.*
 ###> symfony/webpack-encore-bundle ###
 /node_modules/
 /public/build/
@@ -18,5 +8,9 @@ yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 vendor
 translations
-/.yarn/cache/
-/vendor/
+vendor/*
+.idea/*
+/.pnp.cjs
+/.pnp.loader.mjs
+/composer.lock
+/yarn.lock
