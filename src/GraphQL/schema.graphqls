@@ -1,0 +1,12 @@
+schema {
+  query: Query
+}
+
+type Query {
+  getVips: [Vip]
+}
+
+type Vip {
+  vipId: ID!
+  name: String!
+}

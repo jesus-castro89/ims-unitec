@@ -1,0 +1,23 @@
+{% extends 'base.twig' %}
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('cliente', {
+        defer: true
+    }) }}
+{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('cliente') }}
+{% endblock %}
+{% block main %}
+    <div>
+        <a class="btn btn-primary" href="{{ url_for('clienteAdd') }}">Agregar Cliente</a>
+    </div>
+    <hr/>
+    <div id="table-loader" loader="{{ full_url_for('clienteTable') }}"></div>
+    <div id="wrapper"></div>
+    <form id="clienteForm" method="post" action="">
+        <input type="hidden" name="id" id="idCliente" value=""/>
+        <input type="hidden" id="editLink" value="{{ url_for("clienteEdit") }}"/>
+    </form>
+{% endblock %}
