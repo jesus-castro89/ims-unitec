@@ -14,6 +14,8 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class ClienteForm extends AbstractType
 {
@@ -37,10 +39,26 @@ class ClienteForm extends AbstractType
     {
         $builder
             ->add('codigoCliente', HiddenType::class)
-            ->add('nombreCliente', TextType::class)
-            ->add('nombreContacto', TextType::class)
-            ->add('telefono', NumberType::class)
-            ->add('fax', NumberType::class)
+            ->add('nombreCliente', TextType::class, [
+                'label' => 'Nombre del Cliente'
+            ])
+            ->add('nombreContacto', TextType::class, [
+                'label' => 'Nombre de Empleado de Contacto'
+            ])
+            ->add('telefono', NumberType::class, [
+                'constraints' => [
+                    new NotBlank(),
+                    new Regex('/^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/')
+                ],
+                'label' => 'Teléfono de Contacto'
+            ])
+            ->add('fax', NumberType::class, [
+                'required' => false,
+                'constraints' => [
+                    new Regex('/^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/')
+                ],
+                'label' => 'Fax de Contacto'
+            ])
             ->add('lineaDireccion1', TextType::class)
             ->add('lineaDireccion2', TextType::class)
             ->add('ciudad', TextType::class)

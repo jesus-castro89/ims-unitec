@@ -16,12 +16,14 @@ use Psr\Http\Message\ServerRequestInterface;
 use Slim\Routing\RouteContext;
 use Symfony\Component\Form\Extension\Csrf\CsrfExtension;
 use Symfony\Component\Form\Extension\HttpFoundation\HttpFoundationExtension;
+use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\Forms;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Csrf\CsrfTokenManager;
 use Symfony\Component\Security\Csrf\TokenGenerator\UriSafeTokenGenerator;
 use Symfony\Component\Security\Csrf\TokenStorage\NativeSessionTokenStorage;
+use Symfony\Component\Validator\Validation;
 
 class ClienteModel
 {
@@ -51,7 +53,10 @@ class ClienteModel
         $csrfStorage = new NativeSessionTokenStorage();
         $csrfManager = new CsrfTokenManager($csrfGenerator, $csrfStorage);
         $formFactory = Forms::createFormFactoryBuilder()->addExtension(new HttpFoundationExtension())
-            ->addExtension(new CsrfExtension($csrfManager))->getFormFactory();
+            ->addExtensions([
+                new CsrfExtension($csrfManager),
+                new ValidatorExtension(Validation::createValidator())
+            ])->getFormFactory();
         $form = $formFactory->createBuilder(ClienteForm::class, $object, array(
             'attr' => array(
                 'id' => 'entry'
