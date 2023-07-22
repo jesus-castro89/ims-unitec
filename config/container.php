@@ -52,15 +52,9 @@ return [
         ), $twig->getEnvironment());
         $twig->addRuntimeLoader(new FactoryRuntimeLoader([
             FormRenderer::class => function () use ($formEngine, $csrfManager) {
-                return new FormRenderer($formEngine);
+                return new FormRenderer($formEngine, $csrfManager);
             }
         ]));
-        /*$twig->addRuntimeLoader(new \Twig_FactoryRuntimeLoader(array(
-            FormRenderer::class => function() use ($formEngine, $csrfManager){
-
-                return new FormRenderer($formEngine);
-            },
-        )));*/
         $entryPoints = new EntrypointLookup(__DIR__ . '/../public/build/entrypoints.json');
         $tagRenderer = new TagRenderer($entryPoints);
         $extension = new EntrypointsTwigExtension($entryPoints, $tagRenderer);

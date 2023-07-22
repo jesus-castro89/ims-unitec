@@ -1,4 +1,6 @@
 {
+  "name": "ims",
+  "packageManager": "yarn@3.6.1",
   "devDependencies": {
     "@babel/core": "^7.22.8",
     "@babel/plugin-proposal-class-properties": "^7.18.6",
