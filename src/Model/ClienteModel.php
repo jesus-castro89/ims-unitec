@@ -25,10 +25,8 @@ use Symfony\Component\Security\Csrf\TokenGenerator\UriSafeTokenGenerator;
 use Symfony\Component\Security\Csrf\TokenStorage\NativeSessionTokenStorage;
 use Symfony\Component\Validator\Validation;
 
-class ClienteModel
+class ClienteModel extends AbstractModel
 {
-    private ClienteQuery $query;
-
     /**
      * ClienteModel constructor.
      */
@@ -39,29 +37,9 @@ class ClienteModel
 
     public function getForm(ContainerInterface $container, ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
-        // Verificando si es un formulario de agregado o edición
         $req = Request::createFromGlobals();
-        $id = $req->get('id');
-        if ($id != null) {
-
-            $object = $this->query->create()->findOneByCodigoCliente($id);
-        } else {
-            $object = null;
-        }
-        // Crear usuario y llaves de seguridad
-        $csrfGenerator = new UriSafeTokenGenerator();
-        $csrfStorage = new NativeSessionTokenStorage();
-        $csrfManager = new CsrfTokenManager($csrfGenerator, $csrfStorage);
-        $formFactory = Forms::createFormFactoryBuilder()->addExtension(new HttpFoundationExtension())
-            ->addExtensions([
-                new CsrfExtension($csrfManager),
-                new ValidatorExtension(Validation::createValidator())
-            ])->getFormFactory();
-        $form = $formFactory->createBuilder(ClienteForm::class, $object, array(
-            'attr' => array(
-                'id' => 'entry'
-            )
-        ))->getForm();
+        $object = $this->findOneByPrimaryKey("CodigoCliente");
+        $form = $this->configureForm(ClienteForm::class, $object);
         // Procesar Formulario
         $form->handleRequest($req);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -122,33 +100,5 @@ class ClienteModel
         }
         $response->getBody()->write(json_encode($output));
         return $response->withHeader("Content-Type", "application/json");
-    }
-
-    public function getAll(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
-    {
-
-        $response->getBody()->write($this->query->find()->toJSON());
-        return $response->withHeader("Content-Type", "application/json");
-    }
-
-    public function filterByCodigoCliente(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
-    {
-        $id = $args['id'] ?? null;
-        if (is_numeric($id)) {
-
-            $client = $this->query->findOneByCodigoCliente($id);
-            if (!is_null($client)) {
-                $response->getBody()->write(json_encode($client->toArray()));
-                return $response->withHeader("Content-Type", "application/json");
-            } else {
-                $output = ["message" => "No Existe Cliente con el ID especificado"];
-                $response->getBody()->write(json_encode($output));
-                return $response->withStatus(404, "No existe el Cliente");
-            }
-        } else {
-            $output = ["message" => "El valor del código de cliente no es un número"];
-            $response->getBody()->write(json_encode($output));
-            return $response->withStatus(405, "Código de Cliente en Formato Incorrecto");
-        }
     }
 }

@@ -2,6 +2,7 @@
 
 use App\Controller\ClienteController;
 use App\Controller\HomeController;
+use App\Controller\ProductoController;
 use Slim\App;
 use Slim\Routing\RouteCollectorProxy;
 
@@ -27,5 +28,18 @@ return function (App $app) {
             ->setName("clienteTable");
         $group->get("/tableData/{search}/{limit}/{offset}", ClienteController::class . ":tableAction")
             ->setName("clienteSearch");
+    });
+    $app->group("/producto", function (RouteCollectorProxy $group) {
+
+        $group->get("[/]", ProductoController::class . ":dashboardAction")
+            ->setName("productoDashboard");
+        $group->get("/add", ProductoController::class . ":formAction")
+            ->setName("productoAdd");
+        $group->map(['POST', 'GET'], "/edit", ProductoController::class . ":formAction")
+            ->setName("productoEdit");
+        $group->get("/tableData[/{limit}/{offset}]", ProductoController::class . ":tableAction")
+            ->setName("productoTable");
+        $group->get("/tableData/{search}/{limit}/{offset}", ProductoControllerController::class . ":tableAction")
+            ->setName("productoSearch");
     });
 };

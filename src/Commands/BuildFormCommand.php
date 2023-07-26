@@ -40,6 +40,7 @@ class BuildFormCommand extends Command
             $formulario .= "use Symfony\Component\Form\Extension\Core\Type\SubmitType;\n";
             $formulario .= "use Symfony\Component\Form\Extension\Core\Type\TextType;\n";
             $formulario .= "use Symfony\Component\Form\Extension\Core\Type\NumberType;\n";
+            $formulario .= "use Symfony\Component\Form\Extension\Core\Type\TextAreaType;\n";
             $formulario .= "use Symfony\Component\Form\FormBuilderInterface;\n";
             $formulario .= "use Symfony\Component\OptionsResolver\OptionsResolver;\n";
             $formulario .= "\n";
@@ -53,16 +54,21 @@ class BuildFormCommand extends Command
 
                 switch ($tipoCampo) {
                     case 'INTEGER':
+                    case 'SMALLINT':
                         $formulario .= "        \$builder->add('$nombreCampo', IntegerType::class);\n";
                         break;
                     case 'VARCHAR':
                         $formulario .= "        \$builder->add('$nombreCampo', TextType::class);\n";
+                        break;
+                    case 'LONGVARCHAR':
+                        $formulario .= "        \$builder->add('$nombreCampo', TextAreaType::class);\n";
                         break;
                     case 'DECIMAL':
                         $formulario .= "        \$builder->add('$nombreCampo', NumberType::class);\n";
                         break;
                     // Agregar más casos según los tipos de datos que necesites manejar
                     default:
+                        $formulario .="/*FALTA EL TIPO $tipoCampo*/";
                         // Tipo de dato no reconocido, puedes agregar algún mensaje o función para manejarlo
                         break;
                 }
