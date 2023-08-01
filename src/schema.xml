@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<database name="default" defaultIdMethod="native" namespace="\App" defaultPhpNamingMethod="underscore">
+  <table name="category" idMethod="native" phpName="Category" description="Tabla para las categorias de productos">
+    <column name="id" phpName="Id" type="VARCHAR" size="36" description="Identificador único de la categoría de Produictos" primaryKey="true" required="true"/>
+    <column name="name" phpName="Name" type="VARCHAR" size="140" description="Nombre de la Categoría de Producto"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="client" idMethod="native" phpName="Client" description="Tablas para nuestros Clientes">
+    <column name="id" phpName="Id" type="VARCHAR" size="36" description="Identificador único de nuestro cliente" primaryKey="true" required="true"/>
+    <column name="name" phpName="Name" type="VARCHAR" size="140" description="Nombre del Cliente" required="true"/>
+    <column name="last_name" phpName="LastName" type="VARCHAR" size="140" description="Apellido(s) de nuestro cliente" required="true"/>
+    <column name="address" phpName="Address" type="LONGVARCHAR" required="true"/>
+    <column name="zip_code" phpName="ZipCode" type="INTEGER" size="5" sqlType="int(5) unsigned" description="Codigo postal de nuestro cliente" required="true"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="oder_detail" idMethod="native" phpName="OderDetail" description="Detalles de las Ordenes (Pedidos), de nuestros clientes">
+    <column name="id" phpName="Id" type="VARCHAR" size="36" primaryKey="true" required="true"/>
+    <column name="client_id" phpName="ClientId" type="VARCHAR" size="36" description="Cliente al que pertecene o quien realizo el pedido" required="true"/>
+    <column name="order_date" phpName="OrderDate" type="DATETIME" description="Fecha en la que fue realizado el pedido" required="true"/>
+    <foreign-key foreignTable="client" name="oder_details_client_client_id_fk">
+      <reference local="client_id" foreign="id"/>
+    </foreign-key>
+    <index name="oder_details_client_client_id_fk">
+      <index-column name="client_id"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="order_product" idMethod="native" phpName="OrderProduct" description="Tabla de relación entre una orden y los productos que incluye">
+    <column name="id" phpName="Id" type="VARCHAR" size="36" description="Identificador único de la relación" primaryKey="true" required="true"/>
+    <column name="order_id" phpName="OrderId" type="VARCHAR" size="36" description="Orden de la cual es parte la relación" required="true"/>
+    <column name="product_id" phpName="ProductId" type="VARCHAR" size="36" description="Producto del cual es parte la relación" required="true"/>
+    <column name="quantity" phpName="Quantity" type="INTEGER" size="10" sqlType="int(10) unsigned" description="Cantidad de productos agregados a la orden" required="true"/>
+    <column name="discount" phpName="Discount" type="DOUBLE" size="3" scale="2" sqlType="double(3,2) unsigned" description="Porcentaje de descuento entendiendo que 0.1 es equivalente a 10% de decuento" required="true" defaultValue="0.00"/>
+    <foreign-key foreignTable="oder_detail" name="order_products_oder_details_order_details_id_fk">
+      <reference local="order_id" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="product" name="order_products_product_product_id_fk">
+      <reference local="product_id" foreign="id"/>
+    </foreign-key>
+    <index name="order_products_oder_details_order_details_id_fk">
+      <index-column name="order_id"/>
+    </index>
+    <index name="order_products_product_product_id_fk">
+      <index-column name="product_id"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="product" idMethod="native" phpName="Product" description="Tabla de Productos">
+    <column name="id" phpName="Id" type="VARCHAR" size="36" description="Identificador único del producto" primaryKey="true" required="true"/>
+    <column name="name" phpName="Name" type="VARCHAR" size="140" description="Nombre del Producto" required="true"/>
+    <column name="price" phpName="Price" type="DOUBLE" size="5" scale="2" description="Precio del producto" required="true"/>
+    <column name="category_id" phpName="CategoryId" type="VARCHAR" size="36" description="Categoría del Producto" required="true"/>
+    <foreign-key foreignTable="category" name="product_category_category_id_fk">
+      <reference local="category_id" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="category" name="product_category_category_id_fk2">
+      <reference local="category_id" foreign="id"/>
+    </foreign-key>
+    <index name="product_category_category_id_fk2">
+      <index-column name="category_id"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="system_role" idMethod="native" phpName="SystemRole" description="Roles de usuario para el Back Office">
+    <column name="id" phpName="Id" type="VARCHAR" size="36" description="Identificador único del rol de usuario" primaryKey="true" required="true"/>
+    <column name="access" phpName="Access" type="LONGVARCHAR" description="Lista de permisos otorgados para el rol"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="system_user" idMethod="native" phpName="SystemUser" description="Tabla de usuarios registrados a tener acceso al Back Office">
+    <column name="id" phpName="Id" type="VARCHAR" size="36" description="Identificador único del usuario" primaryKey="true" required="true"/>
+    <column name="user_name" phpName="UserName" type="VARCHAR" size="140" description="Nombre de usuario para acceso" required="true"/>
+    <column name="password" phpName="Password" type="LONGVARCHAR" required="true"/>
+    <column name="role" phpName="Role" type="VARCHAR" size="36" required="true"/>
+    <foreign-key foreignTable="system_role" name="system_user_system_role_role_id_fk">
+      <reference local="role" foreign="id"/>
+    </foreign-key>
+    <index name="system_user_system_role_role_id_fk">
+      <index-column name="role"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+</database>

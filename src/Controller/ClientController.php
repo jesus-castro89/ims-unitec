@@ -4,33 +4,27 @@
 namespace App\Controller;
 
 
-use App\Model\ClienteModel;
+use App\Model\ClientModel;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-class ClienteController extends AbstractController
+class ClientController extends AbstractController
 {
 
     public function __construct(ContainerInterface $container)
     {
         parent::__construct($container);
-        $this->model = new ClienteModel();
+        $this->model = new ClientModel();
     }
 
     public function dashboardAction(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        return $this->loadDashboard("cliente.twig", $request, $response);
-    }
-
-    public function filterByCodigoClienteAction(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
-    {
-
-        return $this->model->filterByPrimaryKey("CodigoCliente", $request, $response, $args);
+        return $this->loadDashboard("client.twig", $request, $response);
     }
 
     public function filterByPrimaryKeyAction(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        // TODO: Implement filterByPrimaryKeyAction() method.
+        return $this->model->filterByPrimaryKey("ClientId", $request, $response, $args);
     }
 }

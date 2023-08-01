@@ -7,7 +7,6 @@ use App\Commands\HelloWorldCommand;
 use Symfony\Component\Console\Application;
 
 $app = new Application();
-$app->add(command: new HelloWorldCommand());
 $app->add(command: new BuildFormCommand());
 try {
     $app->run();

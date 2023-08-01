@@ -29,7 +29,7 @@ class BuildFormCommand extends Command
     {
         try {
             $table = $input->getArgument('table');
-            $className = $table . "Formulario";
+            $className = $table . "Form";
             $class = 'App\\' . $table;
             $columns = ($class::TABLE_MAP)::getTableMap()->getColumns();
             $formulario = "<?php\n";
@@ -68,7 +68,7 @@ class BuildFormCommand extends Command
                         break;
                     // Agregar más casos según los tipos de datos que necesites manejar
                     default:
-                        $formulario .="/*FALTA EL TIPO $tipoCampo*/";
+                        $formulario .="        /* FALTA EL TIPO $tipoCampo para $nombreCampo */\n";
                         // Tipo de dato no reconocido, puedes agregar algún mensaje o función para manejarlo
                         break;
                 }

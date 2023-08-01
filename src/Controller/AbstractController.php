@@ -20,13 +20,17 @@ abstract class AbstractController
         $this->container = $container;
     }
 
+    public abstract function dashboardAction(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface;
+
+    public abstract function filterByPrimaryKeyAction(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface;
+
     protected function loadDashboard($view, ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         try {
-            return $this->container->get('view')->render($response, 'cliente.twig', [
+            return $this->container->get('view')->render($response, $view, [
 
             ]);
-        } catch (NotFoundExceptionInterface | ContainerExceptionInterface $e) {
+        } catch (NotFoundExceptionInterface|ContainerExceptionInterface $e) {
             return $response;
         }
     }

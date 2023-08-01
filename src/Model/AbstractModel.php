@@ -21,6 +21,8 @@ use Symfony\Component\Validator\Validation;
 
 abstract class AbstractModel
 {
+    protected $query;
+
     protected function findOneByPrimaryKey($primaryKey)
     {
         $req = Request::createFromGlobals();
@@ -79,5 +81,21 @@ abstract class AbstractModel
 
         $response->getBody()->write($this->query->find()->toJSON());
         return $response->withHeader("Content-Type", "application/json");
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getQuery()
+    {
+        return $this->query;
+    }
+
+    /**
+     * @param mixed $query
+     */
+    public function setQuery($query): void
+    {
+        $this->query = $query;
     }
 }

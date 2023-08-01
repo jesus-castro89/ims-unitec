@@ -4,7 +4,7 @@ $serviceContainer->checkVersion(2);
 $serviceContainer->setAdapterClass('default', 'mysql');
 $manager = new \Propel\Runtime\Connection\ConnectionManagerSingle('default');
 $manager->setConfiguration(array (
-  'dsn' => 'mysql:host=localhost;port=3306;dbname=jardineria',
+  'dsn' => 'mysql:host=localhost;port=3306;dbname=my_store',
   'user' => 'root',
   'password' => '',
   'settings' =>

@@ -1,19 +1,14 @@
 <?php
 
-
 namespace App\Controller;
 
-
-use JetBrains\PhpStorm\Pure;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Slim\Views\Twig;
-use Symfony\WebpackEncoreBundle\Twig\EntryFilesTwigExtension;
+use TheCodingMachine\GraphQLite\Annotations\Query;
 
 class HomeController extends AbstractController
 {
-    #[Pure]
     public function __construct(ContainerInterface $container)
     {
         parent::__construct($container);
@@ -26,5 +21,14 @@ class HomeController extends AbstractController
         ]);
     }
 
+    public function dashboardAction(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        return $response;
+    }
 
+    public function filterByPrimaryKeyAction(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+
+        return $response;
+    }
 }

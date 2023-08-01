@@ -1,0 +1,23 @@
+{% extends 'base.twig' %}
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('client', {
+        defer: true
+    }) }}
+{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('client') }}
+{% endblock %}
+{% block main %}
+    <div>
+        <a class="btn btn-primary" href="{{ url_for('clientAdd') }}">Agregar Categoría</a>
+    </div>
+    <hr/>
+    <div id="table-loader" loader="{{ full_url_for('clientTable') }}"></div>
+    <div id="wrapper"></div>
+    <form id="entityForm" method="post" action="">
+        <input type="hidden" name="id" id="idEntity" value=""/>
+        <input type="hidden" id="editLink" value="{{ url_for("clientEdit") }}"/>
+    </form>
+{% endblock %}

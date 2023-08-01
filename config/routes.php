@@ -1,45 +1,58 @@
 <?php
 
-use App\Controller\ClienteController;
+use App\Controller\ClientController;
+use App\Controller\GraphQLController;
 use App\Controller\HomeController;
-use App\Controller\ProductoController;
+use App\Controller\CategoryController;
+use GraphQL\GraphQL;
+use GraphQL\Server\RequestError;
+use GraphQL\Server\ServerConfig;
+use GraphQL\Server\StandardServer;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Slim\App;
 use Slim\Routing\RouteCollectorProxy;
+use TheCodingMachine\GraphQLite\SchemaFactory;
+use GraphQL\Type\Schema;
 
 return function (App $app) {
     //$app->VERBO('/RUTA', XController::class . ':functionAction');
     $app->get('/[index[/{prueba}]]', HomeController::class . ':homeAction')
         ->setName("dashboardIndex");
     $app->group("/api", function (RouteCollectorProxy $group) {
-        $group->group("/cliente", function (RouteCollectorProxy $group) {
-            $group->get("/all", ClienteController::class . ":getAllAction");
-            $group->get("/{id}", ClienteController::class . ":filterByCodigoClienteAction");
+        $group->group("/category", function (RouteCollectorProxy $group) {
+            $group->get("/all", CategoryController::class . ":getAllAction");
+            $group->get("/{id}", CategoryController::class . ":filterByPrimaryKeyAction");
         });
     });
-    $app->group("/cliente", function (RouteCollectorProxy $group) {
+    //
+    $app->any('/graphql', GraphQLController::class . ":indexAction");
+    //Categorías de Productos
+    $app->group("/category", function (RouteCollectorProxy $group) {
 
-        $group->get("[/]", ClienteController::class . ":dashboardAction")
-            ->setName("clienteDashboard");
-        $group->get("/add", ClienteController::class . ":formAction")
-            ->setName("clienteAdd");
-        $group->map(['POST', 'GET'], "/edit", ClienteController::class . ":formAction")
-            ->setName("clienteEdit");
-        $group->get("/tableData[/{limit}/{offset}]", ClienteController::class . ":tableAction")
-            ->setName("clienteTable");
-        $group->get("/tableData/{search}/{limit}/{offset}", ClienteController::class . ":tableAction")
-            ->setName("clienteSearch");
+        $group->get("[/]", CategoryController::class . ":dashboardAction")
+            ->setName("categoryDashboard");
+        $group->get("/add", CategoryController::class . ":formAction")
+            ->setName("categoryAdd");
+        $group->map(['POST', 'GET'], "/edit", CategoryController::class . ":formAction")
+            ->setName("categoryEdit");
+        $group->get("/tableData[/{limit}/{offset}]", CategoryController::class . ":tableAction")
+            ->setName("categoryTable");
+        $group->get("/tableData/{search}/{limit}/{offset}", CategoryController::class . ":tableAction")
+            ->setName("categorySearch");
     });
-    $app->group("/producto", function (RouteCollectorProxy $group) {
+    //Clientes de la tienda
+    $app->group("/client", function (RouteCollectorProxy $group) {
 
-        $group->get("[/]", ProductoController::class . ":dashboardAction")
-            ->setName("productoDashboard");
-        $group->get("/add", ProductoController::class . ":formAction")
-            ->setName("productoAdd");
-        $group->map(['POST', 'GET'], "/edit", ProductoController::class . ":formAction")
-            ->setName("productoEdit");
-        $group->get("/tableData[/{limit}/{offset}]", ProductoController::class . ":tableAction")
-            ->setName("productoTable");
-        $group->get("/tableData/{search}/{limit}/{offset}", ProductoControllerController::class . ":tableAction")
-            ->setName("productoSearch");
+        $group->get("[/]", ClientController::class . ":dashboardAction")
+            ->setName("clientDashboard");
+        $group->get("/add", ClientController::class . ":formAction")
+            ->setName("clientAdd");
+        $group->map(['POST', 'GET'], "/edit", ClientController::class . ":formAction")
+            ->setName("clientEdit");
+        $group->get("/tableData[/{limit}/{offset}]", ClientController::class . ":tableAction")
+            ->setName("clientTable");
+        $group->get("/tableData/{search}/{limit}/{offset}", ClientController::class . ":tableAction")
+            ->setName("clientSearch");
     });
 };
