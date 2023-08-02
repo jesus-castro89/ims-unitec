@@ -470,10 +470,6 @@ abstract class Product implements ActiveRecordInterface
             $this->aCategoryRelatedByCategoryId = null;
         }
 
-        if ($this->aCategoryRelatedByCategoryId !== null && $this->aCategoryRelatedByCategoryId->getId() !== $v) {
-            $this->aCategoryRelatedByCategoryId = null;
-        }
-
         return $this;
     }
 

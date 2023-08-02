@@ -4,6 +4,7 @@ use App\Controller\ClientController;
 use App\Controller\GraphQLController;
 use App\Controller\HomeController;
 use App\Controller\CategoryController;
+use App\Controller\ProductController;
 use GraphQL\GraphQL;
 use GraphQL\Server\RequestError;
 use GraphQL\Server\ServerConfig;
@@ -27,6 +28,20 @@ return function (App $app) {
     });
     //
     $app->any('/graphql', GraphQLController::class . ":indexAction");
+    //Productos
+    $app->group("/product", function (RouteCollectorProxy $group) {
+
+        $group->get("[/]", ProductController::class . ":dashboardAction")
+            ->setName("productDashboard");
+        $group->get("/add", ProductController::class . ":formAction")
+            ->setName("productAdd");
+        $group->map(['POST', 'GET'], "/edit", ProductController::class . ":formAction")
+            ->setName("productEdit");
+        $group->get("/tableData[/{limit}/{offset}]", ProductController::class . ":tableAction")
+            ->setName("productTable");
+        $group->get("/tableData/{search}/{limit}/{offset}", ProductController::class . ":tableAction")
+            ->setName("productSearch");
+    });
     //Categorías de Productos
     $app->group("/category", function (RouteCollectorProxy $group) {
 

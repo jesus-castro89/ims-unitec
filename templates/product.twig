@@ -1,0 +1,23 @@
+{% extends 'base.twig' %}
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('product', {
+        defer: true
+    }) }}
+{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('product') }}
+{% endblock %}
+{% block main %}
+    <div>
+        <a class="btn btn-primary" href="{{ url_for('productAdd') }}">Agregar Producto</a>
+    </div>
+    <hr/>
+    <div id="table-loader" loader="{{ full_url_for('productTable') }}"></div>
+    <div id="wrapper"></div>
+    <form id="entityForm" method="post" action="">
+        <input type="hidden" name="id" id="idEntity" value=""/>
+        <input type="hidden" id="editLink" value="{{ url_for("productEdit") }}"/>
+    </form>
+{% endblock %}

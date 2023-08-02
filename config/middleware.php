@@ -29,5 +29,5 @@ return function (App $app) {
     //Config GraphQL
     $app->add($app->getContainer()->get(WebonyxGraphqlMiddleware::class));
     //Add Base Path
-    $app->setBasePath('/ims-unitec');
+    $app->setBasePath('/ims');
 };
