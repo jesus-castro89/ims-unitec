@@ -10,7 +10,7 @@ Encore
   // directory where compiled assets will be stored
   .setOutputPath('public/build/')
   // public path used by the web server to access the output path
-  .setPublicPath('http://localhost/ims/build')
+  .setPublicPath('http://localhost/ims-unitec/build')
   .configureFilenames({
     js: '[name].js',
     css: '[name].css',

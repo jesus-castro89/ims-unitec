@@ -1,0 +1,22 @@
+<ul class="sidebar-nav" data-coreui="navigation" data-simplebar="">
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('dashboardIndex') }}">
+            <i class="nav-icon cil-home"></i> Inicio
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('clientDashboard') }}">
+            <i class="nav-icon cil-user"></i> Clientes
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('categoryDashboard') }}">
+            <i class="nav-icon cil-chart"></i> Categorías de Productos
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('productDashboard') }}">
+            <i class="nav-icon cil-basket"></i> Productos
+        </a>
+    </li>
+</ul>

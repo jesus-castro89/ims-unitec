@@ -16,7 +16,7 @@ require_once __DIR__ . "/../../config/config.php";
 
 class BuildFormCommand extends Command
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('build-form')
             ->setDescription('Crea un Formulario Symfony')
@@ -25,7 +25,7 @@ class BuildFormCommand extends Command
             ->addArgument('table', InputArgument::REQUIRED, 'Tabla del esquema del proyecto.');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         try {
             $table = $input->getArgument('table');

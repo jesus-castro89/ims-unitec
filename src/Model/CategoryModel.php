@@ -83,9 +83,9 @@ class CategoryModel extends AbstractModel
         foreach ($data as $category) {
 
             $output['results'][] = [
-                'edit' => "<a class='btn btn-primary edit' entity='" . $category->getCategoryId() . "'>" .
+                'edit' => "<a class='btn btn-primary edit' entity='" . $category->getId() . "'>" .
                     "<i class='cil-pencil pe-2'></i>Editar</a>",
-                'name' => $category->getCategoryName()
+                'name' => $category->getName()
             ];
         }
         $response->getBody()->write(json_encode($output));

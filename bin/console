@@ -2,14 +2,10 @@
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
 
+
 use App\Commands\BuildFormCommand;
-use App\Commands\HelloWorldCommand;
 use Symfony\Component\Console\Application;
 
 $app = new Application();
-$app->add(command: new BuildFormCommand());
-try {
-    $app->run();
-} catch (Exception $e) {
-    echo($e->getTraceAsString());
-}
+$app->add(new BuildFormCommand());
+$app->run();

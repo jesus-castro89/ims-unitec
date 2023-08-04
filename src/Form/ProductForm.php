@@ -19,7 +19,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ProductForm extends AbstractType
 {
-    private function explodeCategory()
+    private function explodeCategory(): array
     {
         $query = new CategoryQuery();
         $types = $query->create()
@@ -33,7 +33,7 @@ class ProductForm extends AbstractType
         return $choices;
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('Id', HiddenType::class);
         $builder->add('Name', TextType::class, [
@@ -47,14 +47,13 @@ class ProductForm extends AbstractType
             'choices' => $this->explodeCategory(),
             'choice_label' => function ($category, $key, $index) {
 
-                return $category != null ? $category->getName() : '--Seleccione una categoria de producto--';
+                return !is_null($category) ? $category->getName() : '--Seleccione una categoría de producto--';
             },
             'choice_value' => function ($category = null) {
                 if (is_string($category)) {
 
                     $query = new CategoryQuery();
-                    $category = $query->create()
-                        ->findOneById($category);
+                    $category = $query->create()->findOneById($category);
                 }
                 return $category ? $category->getId() : '';
             },
@@ -71,7 +70,7 @@ class ProductForm extends AbstractType
         ]);
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(array('data_class' => Product::class));
     }

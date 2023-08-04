@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 class ProductModel extends AbstractModel
 {
     /**
-     * ProducteModel constructor.
+     * ProductModel constructor.
      */
     public function __construct()
     {
@@ -31,20 +31,16 @@ class ProductModel extends AbstractModel
     {
         $req = Request::createFromGlobals();
         $object = $this->findOneByPrimaryKey("Id");
-        print_r($object);
         $form = $this->configureForm(ProductForm::class, $object);
         // Procesar Formulario
         $form->handleRequest($req);
         if ($form->isSubmitted() && $form->isValid()) {
 
             $data = $form->getData();
-            print_r($form);
-            exit();
             if ($data->getId() != null) {
                 $data->setNew(false);
+                $data->setCategoryId($request->getParsedBody()['product_form']['CategoryId']);
             }
-            print_r($data);
-            exit();
             $data->save();
             $routeParser = RouteContext::fromRequest($request)->getRouteParser();
             $resp = new RedirectResponse($routeParser->urlFor('productDashboard'));
@@ -87,7 +83,7 @@ class ProductModel extends AbstractModel
         ];
         foreach ($data as $product) {
 
-            $o=new Product();
+            $o = new Product();
             $output['results'][] = [
                 'edit' => "<a class='btn btn-primary edit' entity='" . $product->getId() . "'>" .
                     "<i class='cil-pencil pe-2'></i>Editar</a>",

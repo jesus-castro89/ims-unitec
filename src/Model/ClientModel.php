@@ -83,11 +83,11 @@ class ClientModel extends AbstractModel
         foreach ($data as $client) {
 
             $output['results'][] = [
-                'edit' => "<a class='btn btn-primary edit' entity='" . $client->getClientId() . "'>" .
+                'edit' => "<a class='btn btn-primary edit' entity='" . $client->getId() . "'>" .
                     "<i class='cil-pencil pe-2'></i>Editar</a>",
-                'name' => $client->getClientName()." ".$client->getClientLastName(),
-                'address' => $client->getClientAddress(),
-                'zipcode' => $client->getClientZipCode()
+                'name' => $client->getName()." ".$client->getLastName(),
+                'address' => $client->getAddress(),
+                'zipcode' => $client->getZipCode()
             ];
         }
         $response->getBody()->write(json_encode($output));

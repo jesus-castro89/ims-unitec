@@ -1,7 +1,21 @@
 {% extends 'baseForm.twig' %}
+
 {% block javascripts %}
     {{ parent() }}
 {% endblock %}
+
 {% block stylesheets %}
     {{ parent() }}
+{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item">
+        <a href="{{ url_for("dashboardIndex") }}"><span>Home</span></a>
+    </li>
+    <li class="breadcrumb-item">
+        <a href="{{ url_for("productDashboard") }}"><span>Productos</span></a>
+    </li>
+    <li class="breadcrumb-item active">
+        <span>Formulario</span>
+    </li>
 {% endblock %}

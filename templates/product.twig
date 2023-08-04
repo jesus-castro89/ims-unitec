@@ -9,6 +9,14 @@
     {{ parent() }}
     {{ encore_entry_link_tags('product') }}
 {% endblock %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item">
+        <a href="{{ url_for("dashboardIndex") }}"><span>Home</span></a>
+    </li>
+    <li class="breadcrumb-item active">
+        <span>Productos</span>
+    </li>
+{% endblock %}
 {% block main %}
     <div>
         <a class="btn btn-primary" href="{{ url_for('productAdd') }}">Agregar Producto</a>

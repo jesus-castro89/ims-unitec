@@ -12,7 +12,7 @@ abstract class AbstractController
 {
     protected ContainerInterface $container;
 
-    protected $model;
+    protected mixed $model;
 
     // constructor receives container instance
     public function __construct(ContainerInterface $container)
@@ -85,7 +85,7 @@ abstract class AbstractController
     /**
      * @param mixed $model
      */
-    public function setModel($model): void
+    public function setModel(mixed $model): void
     {
         $this->model = $model;
     }

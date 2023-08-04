@@ -18,13 +18,7 @@
 <body>
 <div class="sidebar sidebar-dark sidebar-fixed" id="sidebar">
     <div class="sidebar-brand d-none d-md-flex"></div>
-    <ul class="sidebar-nav" data-coreui="navigation" data-simplebar="">
-        <li class="nav-item">
-            <a class="nav-link" href="index.html">
-                <i class="nav-icon cil-home"></i> Inicio
-            </a>
-        </li>
-    </ul>
+    {% include "menu.twig" %}
     <button class="sidebar-toggler" type="button" data-coreui-toggle="unfoldable"></button>
 </div>
 <div class="wrapper d-flex flex-column min-vh-100 bg-light">
@@ -32,12 +26,14 @@
         <div class="container-fluid">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb my-0 ms-2">
+                    {% block breadcrumb %}
                     <li class="breadcrumb-item">
-                        <span>Home</span>
+                        <a href="{{ url_for("dashboardIndex") }}"><span>Home</span></a>
                     </li>
                     <li class="breadcrumb-item active">
                         <span>Dashboard</span>
                     </li>
+                    {% endblock %}
                 </ol>
             </nav>
         </div>
@@ -50,12 +46,13 @@
                         {% block main %}
                             <div class="d-flex justify-content-between">
                                 <div>
-                                    <h4 class="card-title mb-0">Traffic</h4>
-                                    <div class="small text-medium-emphasis">January - July 2022</div>
+                                    <h4 class="card-title mb-0">Inicio</h4>
                                 </div>
                             </div>
                             <div class="c-chart-wrapper" style="height:300px;margin-top:40px;">
-
+                                <p>
+                                    Página de Inicio del gestor de tablas o Dashboard.
+                                </p>
                             </div>
                         {% endblock %}
                     </div>
