@@ -19,7 +19,7 @@ class CategoryController
     }
 
     /**
-     * @return Category[] <=== Regresa un arreglo de objetos de tipo Category de acuerdo a un campo y datos especificados.
+     * @return Category[]
      */
     #[Mutation]
     public function category(?CategoryField $field = CategoryField::ALL, ?string $search = ""): array
